@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ConversationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::get('/home',[ConversationController::class,'index'])->name('home');
+Route::get('/conversation',[ConversationController::class,'index'])->name('conversations');
+Route::get('/conversation/{id}',[ConversationController::class,'show'])->name('conversation.show');
