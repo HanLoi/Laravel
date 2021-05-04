@@ -26,4 +26,4 @@ require __DIR__.'/auth.php';
 
 Route::get('/home',[ConversationController::class,'index'])->name('home');
 Route::get('/conversation',[ConversationController::class,'index'])->name('conversations');
-Route::get('/conversation/{id}',[ConversationController::class,'show'])->name('conversation.show');
+Route::get('/conversation/{user}',[ConversationController::class,'show'])->name('conversation.show');

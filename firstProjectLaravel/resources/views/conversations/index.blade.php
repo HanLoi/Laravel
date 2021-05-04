@@ -8,18 +8,10 @@
         </h2>
     </x-slot>
 
- 
-        <div class="col-md-3">
-            <div class="list-group">
-            @foreach($user as $user)
-                <a class="list-group-item" href="{{ route('conversation.show', $user->id) }}"> {{$user->name}}</a>
-            @endforeach
-            </div>
-        </div>
 
-
-
-
+       <div class="container">
+            @include('conversations.user')
+       </div>
 
 
 
