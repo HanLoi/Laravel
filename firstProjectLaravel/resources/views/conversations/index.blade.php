@@ -10,9 +10,9 @@
 
 
        <div class="container">
-            @include('conversations.user')
+            @include('conversations.user',['users'=>$users, 'unread'=> $unread])
        </div>
-
+ 
 
 
 </x-app-layout>
