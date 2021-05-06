@@ -27,3 +27,4 @@ require __DIR__.'/auth.php';
 Route::get('/home',[ConversationController::class,'index'])->name('home');
 Route::get('/conversation',[ConversationController::class,'index'])->name('conversations');
 Route::get('/conversation/{user}',[ConversationController::class,'show'])->name('conversation.show');
+Route::post('/conversation/{user}',[ConversationController::class,'store']);

@@ -2,22 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-
+use App\Repository\ConversationRepository;
+use Illuminate\Auth\AuthManager;
 
 class ConversationController extends Controller
 {
+
+    private $conversationRepository;
+
+    private $auth;
+
+    public function __construct(ConversationRepository $conversationRepository, AuthManager $auth)
+    {
+            $this->conversationRepository=$conversationRepository;
+            $this->auth=$auth;
+
+    }
+
     public function index()
     {
-        $users = User::select('name','id')->where('id', '!=', Auth::id())->get();
-        return view('conversations/index', compact('users'));
+        return view('conversations/index',[
+            'users'=>$this->conversationRepository->getConversations($this->auth->user()->id)
+        ]);
     }
 
     public function show(User $user)
     {
-        $users = User::select('name','id')->where('id', '!=', Auth::id())->get();
-        return view('conversations/show', compact('users', 'user'));
+        return view('conversations/show',[
+            'users'=>$this->conversationRepository->getConversations($this->auth->user()->id),
+            'user' => $user,
+            'messages'=>$this->conversationRepository->getMessageFor($this->auth->user()->id, $user->id)->get(),
+           
+        ]);
+    }
+
+    public function store (User $user, Request $request)
+    {
+        $this->conversationRepository->createMessage(
+            $request->get('content'),
+            $this->auth->user()->id,
+            $user->id
+        );
+        return redirect(route('conversation.show', ['user' => $user->id ]));    
     }
 }
